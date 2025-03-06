@@ -12,14 +12,14 @@ List<string> serviceIds = [];
 var builder = Kernel.CreateBuilder();
 
 // Add the Ollama chat completion service
-var modelId = "llama3.2";
+var modelId = "Phi4-mini";
 var endpoint = new Uri("http://127.0.0.1:11434/");
 builder.AddOllamaChatCompletion(modelId, endpoint, serviceId:"local");
 
 // Add the OpenAI chat completion service
 var openAIModelId = Environment.GetEnvironmentVariable("OPENAI_CHAT_MODEL_ID");
 var key = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
-builder.AddOpenAIChatCompletion(openAIModelId, key);
+builder.AddOpenAIChatCompletion(openAIModelId, key, serviceId:"cloud");
 
 // add service IDs
 serviceIds.Add("local");

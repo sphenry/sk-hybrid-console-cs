@@ -1,4 +1,5 @@
 ﻿
+using System.ClientModel;
 using DotNetEnv;
 using Microsoft.SemanticKernel;
 
@@ -21,9 +22,19 @@ var openAIModelId = Environment.GetEnvironmentVariable("OPENAI_CHAT_MODEL_ID");
 var key = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
 builder.AddOpenAIChatCompletion(openAIModelId, key, serviceId:"cloud");
 
+// Add the OpenAI chat completion service
+var client = new OpenAI.OpenAIClient(new ApiKeyCredential("fake-key"), new OpenAI.OpenAIClientOptions()
+{
+    Endpoint = new Uri("http://127.0.0.1:5272/v1/")
+});
+
+builder.AddOpenAIChatCompletion("Phi-4-mini", client, serviceId:"l2");
+
 // add service IDs
 serviceIds.Add("local");
 serviceIds.Add("cloud");
+serviceIds.Add("l2");
+
 
 // Add plugins
 var kernel = builder.Build();
